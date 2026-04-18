@@ -135,9 +135,6 @@ Create a `.env.local` file in the project root:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 
-# Codemod.com (for publishing/registry access)
-CODEMOD_API_KEY=your-codemod-api-key-here
-
 # GitHub - Needed for creating branches and PRs
 GITHUB_TOKEN=your-github-personal-access-token
 
