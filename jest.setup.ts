@@ -131,5 +131,11 @@ if (typeof window !== "undefined") {
 
 // Polyfill TextEncoder and TextDecoder
 import { TextEncoder, TextDecoder } from 'util';
-global.TextEncoder = TextEncoder as any;
-global.TextDecoder = TextDecoder as any;
+global.TextEncoder = TextEncoder as unknown as typeof global.TextEncoder;
+global.TextDecoder = TextDecoder as unknown as typeof global.TextDecoder;
+globalThis.TextEncoder = TextEncoder as unknown as typeof global.TextEncoder;
+globalThis.TextDecoder = TextDecoder as unknown as typeof global.TextDecoder;
+
+import { ReadableStream } from 'stream/web';
+global.ReadableStream = ReadableStream as unknown as typeof global.ReadableStream;
+globalThis.ReadableStream = ReadableStream as unknown as typeof global.ReadableStream;

@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+
 import Home from "../page";
 import { redirect } from "next/navigation";
 

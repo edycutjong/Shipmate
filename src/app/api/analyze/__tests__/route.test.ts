@@ -2,7 +2,7 @@ import { POST } from "../route";
 
 jest.mock("next/server", () => ({
   NextResponse: {
-    json: (data: any, init?: any) => new Response(JSON.stringify(data), init),
+    json: (data: unknown, init?: globalThis.ResponseInit) => new Response(JSON.stringify(data), init),
   },
 }));
 

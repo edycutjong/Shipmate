@@ -3,7 +3,7 @@ import DashboardPage from "../page";
 
 // Mock the components so we don't have to deal with their internal complexities
 jest.mock("@/components/RepoInput", () => ({
-  RepoInput: ({ onAnalyze, setError }: any) => (
+  RepoInput: ({ onAnalyze, setError }: { onAnalyze: (data: unknown) => void; setError: (msg: string) => void }) => (
     <div data-testid="repo-input">
       <button
         data-testid="trigger-analyze"
@@ -29,11 +29,11 @@ jest.mock("@/components/RepoInput", () => ({
 }));
 
 jest.mock("@/components/RepoSummary", () => ({
-  RepoSummary: ({ data }: any) => <div data-testid="repo-summary">{data.name}</div>,
+  RepoSummary: ({ data }: { data: { name: string } }) => <div data-testid="repo-summary">{data.name}</div>,
 }));
 
 jest.mock("@/components/GenerationPanel", () => ({
-  GenerationPanel: ({ content, variant }: any) => (
+  GenerationPanel: ({ content, variant }: { content: string; variant: string }) => (
     <div data-testid={`panel-${variant}`}>{content}</div>
   ),
 }));
