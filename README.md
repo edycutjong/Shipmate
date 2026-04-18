@@ -68,9 +68,32 @@ Solana's migration from `@solana/web3.js` to `@solana/kit` affects thousands of 
 
 ## 🏗️ Architecture
 
-<p align="center">
-  <img src="docs/architecture.png" alt="Shipmate Architecture" width="720" />
-</p>
+Shipmate uses an event-driven loop architecture combining deterministic codemods with LLM verification:
+
+```mermaid
+graph TD
+    A[User Submits Repo] --> B[Clone Repository]
+    B --> C[AST Transformation Phase]
+    C --> D{Run tsc}
+    D -- Success --> F[Push Branch & Create PR]
+    D -- Compile Errors --> E[LLM Agent]
+    E -->|Extract Error & Context| G[LLM Iteration]
+    G -->|Patch File| D
+    F --> H[Completed]
+
+    style A fill:#0ea5e9,stroke:#0ea5e9,color:#fff
+    style H fill:#10b981,stroke:#10b981,color:#fff
+    style E fill:#8b5cf6,stroke:#8b5cf6,color:#fff
+```
+
+**1. AST Transformation (`ast-grep`)**  
+Bulk transforms deterministic patterns like simple import changes and parameter reordering. This phase is fast and guarantees zero hallucinations because it relies on standard AST parsers.
+
+**2. The Compiler Loop**  
+After bulk transformation, the engine runs the TypeScript compiler (`tsc`). If the build fails, the raw compiler errors, exact file locations, and structural context are fed into a large language model (Claude Sonnet) via streaming AI functions.
+
+**3. Verification**  
+The AI attempts to fix the isolated typing issues. The compiler is run again. This loop continues iteratively until either the types are solved and the build succeeds, or a maximum recursive boundary matches.
 
 ---
 
@@ -114,6 +137,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 
 # Codemod.com (for publishing/registry access)
 CODEMOD_API_KEY=your-codemod-api-key-here
+
+# GitHub - Needed for creating branches and PRs
+GITHUB_TOKEN=your-github-personal-access-token
+
+# OpenAI - Needed for compiler-in-the-loop AI processing
+OPENAI_API_KEY=your-openai-api-key
 ```
 
 > **Note:** The app runs fully in demo mode without any environment variables. The pipeline visualization and log terminal use simulated data for a reliable demo experience.
