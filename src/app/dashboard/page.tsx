@@ -6,8 +6,18 @@ import { RepoSummary } from "@/components/RepoSummary";
 import { GenerationPanel } from "@/components/GenerationPanel";
 import { Rocket, MonitorSmartphone, Hash, Triangle } from "lucide-react";
 
+export interface RepoData {
+  name: string;
+  description: string;
+  techStack: string[];
+  features: string[];
+  recentWork: string[];
+  readmeExcerpt: string;
+  routeTree: string[];
+}
+
 export default function DashboardPage() {
-  const [repoData, setRepoData] = useState<any>(null);
+  const [repoData, setRepoData] = useState<RepoData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +26,7 @@ export default function DashboardPage() {
   const [twitterText, setTwitterText] = useState("");
   const [productHuntText, setProductHuntText] = useState("");
 
-  const handleAnalyze = async (data: any) => {
+  const handleAnalyze = async (data: RepoData) => {
     setRepoData(data);
     // Reset generation state
     setLandingText("");
@@ -64,7 +74,7 @@ export default function DashboardPage() {
                 } else if (parsed.type === "done") {
                   setIsGenerating(false);
                 }
-              } catch (e) {
+              } catch {
                 // Ignore parse errors from partial JSON if any
               }
             }

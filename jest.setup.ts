@@ -128,3 +128,8 @@ if (typeof window !== 'undefined') {
 if (typeof window !== "undefined") {
   window.Element.prototype.scrollIntoView = jest.fn();
 }
+
+// Polyfill TextEncoder and TextDecoder
+import { TextEncoder, TextDecoder } from 'util';
+global.TextEncoder = TextEncoder as any;
+global.TextDecoder = TextDecoder as any;
