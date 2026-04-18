@@ -66,7 +66,7 @@ export function GenerationPanel({
     <div className="text-left text-sm text-slate-300 leading-relaxed overflow-auto max-h-[500px] scrollbar-thin scrollbar-thumb-slate-700">
       <div className="prose prose-invert prose-cyan max-w-none">
         <ReactMarkdown>
-          {content || "Waiting for stream..."}
+          {content}
         </ReactMarkdown>
       </div>
     </div>
