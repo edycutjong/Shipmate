@@ -1,10 +1,8 @@
 import Link from "next/link";
-import Header from "@/components/Header";
 
 export default function NotFound() {
   return (
     <>
-      <Header />
       <main className="flex min-h-[70vh] flex-col items-center justify-center p-6 text-center relative overflow-hidden">
         {/* Background effects */}
         <div className="orb orb-purple h-[300px] w-[300px] top-[10%] opacity-30" />

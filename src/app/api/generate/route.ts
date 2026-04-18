@@ -75,8 +75,8 @@ Recent commits: ${JSON.stringify(repoContext.recentWork || [])}`;
                 sendEvent(type, text);
               }
             }
-          } catch (e: any) {
-             sendEvent(type, `\n\n**Error**: ${e.message}`);
+          } catch (e: unknown) {
+             sendEvent(type, `\n\n**Error**: ${(e as Error).message}`);
           }
         };
 
@@ -101,10 +101,10 @@ Recent commits: ${JSON.stringify(repoContext.recentWork || [])}`;
       },
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Generate error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to initialize generation stream' },
+      { error: error instanceof Error ? error.message : 'Failed to initialize generation stream' },
       { status: 500 }
     );
   }

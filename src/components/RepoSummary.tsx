@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Code, GitBranch, BookOpen, Layers, FileCode } from "lucide-react";
+import { GitBranch, BookOpen, Layers, FileCode } from "lucide-react";
 
 interface RepoSummaryProps {
   data: {

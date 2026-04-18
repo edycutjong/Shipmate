@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { Search, Loader2 } from "lucide-react";
+import type { RepoData } from "@/app/dashboard/page";
 
 interface RepoInputProps {
-  onAnalyze: (data: any) => void;
+  onAnalyze: (data: RepoData) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -35,8 +36,8 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
       }
 
       onAnalyze(data);
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }
