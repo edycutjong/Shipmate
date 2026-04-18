@@ -102,7 +102,6 @@ Recent commits: ${JSON.stringify(repoContext.recentWork || [])}`;
     });
 
   } catch (error: unknown) {
-    console.error('Generate error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to initialize generation stream' },
       { status: 500 }

@@ -1,4 +1,4 @@
-import { POST } from "../route";
+import { POST, runtime } from "../route";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -32,6 +32,10 @@ describe("Generate API Route", () => {
     process.env.OPENAI_API_KEY = "test-sk-key";
   });
 
+  it("exports edge runtime", () => {
+    expect(runtime).toBe("edge");
+  });
+
   it("returns 500 if OPENAI_API_KEY is not configured", async () => {
     delete process.env.OPENAI_API_KEY;
 
@@ -52,7 +56,7 @@ describe("Generate API Route", () => {
   it("handles empty or invalid JSON body", async () => {
     const req = new Request("http://localhost/api/generate", {
       method: "POST",
-      body: "invalid-json",
+      body: "invalid-json", 
     });
 
     const res = await POST(req) as unknown as MockResponseExt;
@@ -78,7 +82,7 @@ describe("Generate API Route", () => {
 
     const req = new Request("http://localhost/api/generate", {
       method: "POST",
-      body: JSON.stringify({ repoContext: { name: "test-err" } }),
+      body: JSON.stringify({ tone: "casual", repoContext: { name: "test-err" } }),
     });
 
     const res = await POST(req) as unknown as MockResponseExt;

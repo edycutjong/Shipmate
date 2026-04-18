@@ -139,7 +139,6 @@ export async function POST(req: Request) {
       routeTree,
     });
   } catch (error: unknown) {
-    console.error("Analyze error:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to analyze repository" },
       { status: 500 }

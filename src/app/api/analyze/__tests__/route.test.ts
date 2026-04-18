@@ -1,4 +1,4 @@
-import { POST } from "../route";
+import { POST, runtime } from "../route";
 
 jest.mock("next/server", () => ({
   NextResponse: {
@@ -13,6 +13,10 @@ describe("POST /api/analyze", () => {
 
   afterEach(() => {
     jest.resetAllMocks();
+  });
+
+  it("exports edge runtime", () => {
+    expect(runtime).toBe("edge");
   });
 
   it("returns 400 if repoUrl is missing", async () => {
@@ -70,8 +74,10 @@ describe("POST /api/analyze", () => {
         json: async () => ({
           tree: [
             { type: "blob", path: "src/app/page.tsx" },
+            { type: "blob", path: "app/page.tsx" },
             { type: "blob", path: "src/app/foo/bar/baz/deep.tsx" }, // depth 5
             { type: "blob", path: "src/pages/index.tsx" },
+            { type: "blob", path: "pages/index.tsx" },
             { type: "blob", path: "other.ts" }, // depth 1
             { type: "blob", path: "other/nested/file.ts" }, // depth 3 > 2 (ignored)
           ]
@@ -79,7 +85,7 @@ describe("POST /api/analyze", () => {
       })
       .mockResolvedValueOnce({ // commits
         ok: true,
-        json: async () => [{ commit: { message: "init\nbody" } }],
+        json: async () => [{ commit: { message: "init\nbody" } }, { commit: {} }, {} ],
       });
 
     const res = await POST(req);

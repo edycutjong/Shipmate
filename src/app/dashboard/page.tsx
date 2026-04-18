@@ -81,8 +81,7 @@ export default function DashboardPage() {
           }
         }
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
       setError("Failed to generate content.");
     } finally {
       setIsGenerating(false);

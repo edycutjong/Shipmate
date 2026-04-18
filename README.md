@@ -152,6 +152,8 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the landing page.
 
+> **🎬 Judge Quick Path:** No login required. The app runs fully in demo mode — click "Launch Dashboard" → "Start Migration" to see the full pipeline visualization with simulated data.
+
 ---
 
 ## 📁 Project Structure
@@ -203,6 +205,12 @@ shipmate/
 
 > 📄 **Read the Full Case Study:** [CASE_STUDY.md](./docs/CASE_STUDY.md) covers our AST + compiler-in-the-loop implementation in depth.
 > 🎬 **Demo Materials:** [DEMO_SCRIPT.md](./docs/DEMO_SCRIPT.md) contains the video flow & pitch.
+
+### Sponsor Tracks Targeted
+
+* **Codemod / ast-grep** — Deterministic AST transforms power the first stage of the pipeline. Codemod rules: [`codemod/`](./codemod/)
+* **Claude Sonnet (AI Loop)** — Compiler-in-the-loop uses Claude to iteratively fix `tsc` errors. Implementation: [`src/app/api/generate/route.ts`](./src/app/api/generate/route.ts)
+* **Supabase** — Sweep tracking, dashboard analytics, and real-time status updates. Client: [`src/lib/supabase.ts`](./src/lib/supabase.ts)
 
 ---
 
