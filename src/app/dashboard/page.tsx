@@ -103,7 +103,7 @@ export default function DashboardPage() {
               SHIPMATE MVP
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-violet-500">
             Automated Marketing Engine
           </h1>
           <p className="text-slate-400 max-w-xl text-lg">
