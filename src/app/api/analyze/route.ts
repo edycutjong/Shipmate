@@ -10,7 +10,7 @@ interface AnalyzeRequest {
 export async function POST(req: Request) {
   try {
     const body: AnalyzeRequest = await req.json();
-    let { repoUrl, pat } = body;
+    const { repoUrl, pat } = body;
 
     if (!repoUrl) {
       return NextResponse.json(
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
             const deps = Object.keys(packageJson.dependencies || {});
             const devDeps = Object.keys(packageJson.devDependencies || {});
             techStack = [...deps, ...devDeps];
-        } catch (e) {
+        } catch {
             // Ignore parse errors from package.json
         }
     }
@@ -107,8 +107,8 @@ export async function POST(req: Request) {
       if (treeData && treeData.tree) {
         // Filter to files and top ~3 levels to infer routes
         routeTree = treeData.tree
-          .filter((t: any) => t.type === "blob")
-          .map((t: any) => t.path)
+          .filter((t: { type: string; path: string }) => t.type === "blob")
+          .map((t: { path: string }) => t.path)
           .filter((p: string) => {
             const depth = p.split("/").length;
             // focus on app/ src/ pages/ to infer structure 
@@ -125,7 +125,7 @@ export async function POST(req: Request) {
     if (commitsRes.ok) {
       const commits = await commitsRes.json();
       if (Array.isArray(commits)) {
-        recentWork = commits.map((c: any) => c.commit?.message?.split("\n")[0]).filter(Boolean);
+        recentWork = commits.map((c: { commit?: { message?: string } }) => c.commit?.message?.split("\n")[0]).filter((msg): msg is string => Boolean(msg));
       }
     }
 
@@ -138,10 +138,10 @@ export async function POST(req: Request) {
       readmeExcerpt,
       routeTree,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Analyze error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to analyze repository" },
+      { error: error instanceof Error ? error.message : "Failed to analyze repository" },
       { status: 500 }
     );
   }
