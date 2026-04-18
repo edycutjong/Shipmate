@@ -59,6 +59,15 @@ describe("RepoInput", () => {
 
     const button = screen.getByRole("button", { name: /Analyze/i });
     expect(button).toBeDisabled();
+
+    // Force form submit to hit the !url return branch
+    const urlInput = screen.getByPlaceholderText("https://github.com/username/repository");
+    const form = urlInput.closest("form");
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
+    
+    expect(mockSetIsLoading).not.toHaveBeenCalled();
   });
 
   it("submits the form successfully and calls onAnalyze", async () => {
