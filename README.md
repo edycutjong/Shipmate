@@ -55,17 +55,21 @@ We built the frontend using **Next.js 16 (App Router)** and **Tailwind CSS v4**.
 
 ```mermaid
 graph TD
-    A[User Pastes GitHub URL] --> B[Shipmate API]
-    B -->|Fetch README, commits, routes| C[GitHub REST API]
-    C --> B
-    B -->|Prompt + Repo Context| D[OpenAI gpt-4o]
-    D -->|SSE Stream| E[Landing Page Panel]
-    D -->|SSE Stream| F[Product Hunt Panel]
-    D -->|SSE Stream| G[Twitter Thread Panel]
+    A([User Pastes GitHub URL]) --> B[Shipmate API]
+    B --> C[(GitHub REST API: Fetch Context)]
+    C --> D{{OpenAI gpt-4o: Generate Copy}}
+    
+    D ==> E[🖥️ Landing Page Stream]
+    D ==> F[🚀 Product Hunt Stream]
+    D ==> G[🐦 X/Twitter Stream]
 
-    style A fill:#0ea5e9,stroke:#0ea5e9,color:#fff
-    style B fill:#334155,stroke:#334155,color:#fff
-    style D fill:#10b981,stroke:#10b981,color:#fff
+    style A fill:#0ea5e9,stroke:#0284c7,color:#fff,stroke-width:2px
+    style B fill:#334155,stroke:#475569,color:#fff,stroke-width:2px
+    style C fill:#1e293b,stroke:#334155,color:#cbd5e1,stroke-width:2px
+    style D fill:#10b981,stroke:#059669,color:#fff,stroke-width:2px
+    style E fill:#0f172a,stroke:#1e293b,color:#f8fafc,stroke-width:2px
+    style F fill:#0f172a,stroke:#1e293b,color:#f8fafc,stroke-width:2px
+    style G fill:#0f172a,stroke:#1e293b,color:#f8fafc,stroke-width:2px
 ```
 
 ## 🏆 Sponsor Tracks Targeted
