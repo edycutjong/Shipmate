@@ -7,7 +7,15 @@ interface AnalyzeRequest {
 }
 
 interface CacheEntry {
-  data: any;
+  data: {
+    name: string;
+    description: string;
+    techStack: string[];
+    features: string[];
+    recentWork: string[];
+    readmeExcerpt: string;
+    routeTree: string[];
+  };
   timestamp: number;
 }
 

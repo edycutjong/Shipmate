@@ -41,7 +41,7 @@ const DEMO_REPOS = [
   "https://github.com/edycutjong/vaultsudo"
 ];
 
-export const frontendCache = new Map<string, any>();
+export const frontendCache = new Map<string, RepoData>();
 
 
 export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: RepoInputProps) {
@@ -65,8 +65,9 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
     setError(null);
 
     const cacheKey = `${targetUrl}:${targetPat}`;
-    if (frontendCache.has(cacheKey)) {
-      onAnalyze(frontendCache.get(cacheKey));
+    const cachedData = frontendCache.get(cacheKey);
+    if (cachedData) {
+      onAnalyze(cachedData);
       setIsLoading(false);
       return;
     }
