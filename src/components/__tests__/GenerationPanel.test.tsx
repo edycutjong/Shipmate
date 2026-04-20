@@ -160,6 +160,35 @@ describe("GenerationPanel", () => {
     expect(screen.getByTitle("Expand")).toBeInTheDocument();
   });
 
+  it("strips markdown code blocks in landing variant", () => {
+    const htmlContent = `\`\`\`html\n<div>Test HTML</div>\n\`\`\``;
+    render(
+      <GenerationPanel
+        title="Landing Panel"
+        icon={<span data-testid="icon" />}
+        content={htmlContent}
+        isGenerating={false}
+        variant="landing"
+      />
+    );
+    // ReactMarkdown parses the stripped content as raw HTML div
+    expect(screen.getByText("Test HTML")).toBeInTheDocument();
+  });
+
+  it("strips markdown from landing variant when no newline before closing backticks", () => {
+    const htmlContent = `\`\`\`html<div>Test content</div>\`\`\``;
+    render(
+      <GenerationPanel
+        title="Landing Panel"
+        icon={<span data-testid="icon" />}
+        content={htmlContent}
+        isGenerating={false}
+        variant="landing"
+      />
+    );
+    expect(screen.getByText("Test content")).toBeInTheDocument();
+  });
+
   it("handles fallback elegantly when content.includes throws", () => {
     // Suppress React warning for rendering null locally vs other errors
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
