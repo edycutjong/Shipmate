@@ -21,6 +21,28 @@ interface RepoInputProps {
   setError: (error: string | null) => void;
 }
 
+const DEMO_REPOS = [
+  "https://github.com/edycutjong/shipmate",
+  "https://github.com/edycutjong/aegis-48",
+  "https://github.com/edycutjong/AegisGuard.init",
+  "https://github.com/edycutjong/aegis-intercept",
+  "https://github.com/edycutjong/autharmor",
+  "https://github.com/edycutjong/botcarbon",
+  "https://github.com/edycutjong/carbonmerge",
+  "https://github.com/edycutjong/carbonmerge-demo",
+  "https://github.com/edycutjong/ClawSearch402",
+  "https://github.com/edycutjong/clawsearch-darkdesk",
+  "https://github.com/edycutjong/hermes",
+  "https://github.com/edycutjong/lexexhibit",
+  "https://github.com/edycutjong/paciport",
+  "https://github.com/edycutjong/RescueNodeZero",
+  "https://github.com/edycutjong/roastmybag-ai",
+  "https://github.com/edycutjong/shift-sync",
+  "https://github.com/edycutjong/solsweep",
+  "https://github.com/edycutjong/terminalrescue.py",
+  "https://github.com/edycutjong/vaultsudo"
+];
+
 export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: RepoInputProps) {
   const [url, setUrl] = useState("");
   const [pat, setPat] = useState("");
@@ -69,9 +91,9 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
   };
 
   const handleDemo = async () => {
-    const demoUrl = "https://github.com/edycutjong/shipmate";
-    setUrl(demoUrl);
-    await runAnalysis(demoUrl, pat);
+    const randomRepo = DEMO_REPOS[Math.floor(Math.random() * DEMO_REPOS.length)];
+    setUrl(randomRepo);
+    await runAnalysis(randomRepo, pat);
   };
 
   return (

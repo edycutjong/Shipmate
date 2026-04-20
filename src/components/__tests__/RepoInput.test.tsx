@@ -299,7 +299,7 @@ describe("RepoInput", () => {
     expect(mockSetError).toHaveBeenCalledWith(null);
     expect(global.fetch).toHaveBeenCalledWith("/api/analyze", expect.objectContaining({
       method: "POST",
-      body: JSON.stringify({ repoUrl: "https://github.com/edycutjong/shipmate", pat: "" }),
+      body: expect.stringContaining("https://github.com/edycutjong/"),
     }));
     expect(mockOnAnalyze).toHaveBeenCalledWith({ simulated: "demoData" });
   });
