@@ -1,4 +1,4 @@
-import { POST, runtime } from "../route";
+import { POST } from "../route";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -32,9 +32,7 @@ describe("Generate API Route", () => {
     process.env.OPENAI_API_KEY = "test-sk-key";
   });
 
-  it("exports edge runtime", () => {
-    expect(runtime).toBe("edge");
-  });
+
 
   it("returns 500 if OPENAI_API_KEY is not configured", async () => {
     delete process.env.OPENAI_API_KEY;

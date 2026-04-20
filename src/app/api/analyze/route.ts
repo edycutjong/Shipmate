@@ -33,13 +33,16 @@ export async function POST(req: Request) {
     const [, owner, repo] = match;
     const cleanRepo = repo.replace(/\.git$/, "");
 
+    // User-provided PAT takes priority, fallback to server-side GITHUB_TOKEN
+    const token = pat || process.env.GITHUB_TOKEN;
+
     const headers: Record<string, string> = {
       Accept: "application/vnd.github.v3+json",
       "User-Agent": "Shipmate-Analyze-Edge-Function",
     };
 
-    if (pat) {
-      headers["Authorization"] = `Bearer ${pat}`;
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
     }
 
     // Fetch repository details to get default branch

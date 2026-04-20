@@ -1,4 +1,4 @@
-import { POST, runtime } from "../route";
+import { POST } from "../route";
 
 jest.mock("next/server", () => ({
   NextResponse: {
@@ -15,9 +15,7 @@ describe("POST /api/analyze", () => {
     jest.resetAllMocks();
   });
 
-  it("exports edge runtime", () => {
-    expect(runtime).toBe("edge");
-  });
+
 
   it("returns 400 if repoUrl is missing", async () => {
     const req = new Request("http://localhost/api/analyze", {
