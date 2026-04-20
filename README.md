@@ -53,24 +53,7 @@ Every developer has been here: you just spent 48 hours building something incred
 ## 🏗️ Architecture & Tech Stack
 We built the frontend using **Next.js 16 (App Router)** and **Tailwind CSS v4**. Code analysis uses the **GitHub REST API**, and generation is handled by **OpenAI gpt-4o** using real-time Server-Sent Events (SSE) streaming for immediate visual feedback.
 
-```mermaid
-graph TD
-    A([User Pastes GitHub URL]) --> B[Shipmate API]
-    B --> C[(GitHub REST API: Fetch Context)]
-    C --> D{{OpenAI gpt-4o: Generate Copy}}
-    
-    D ==> E[🖥️ Landing Page Stream]
-    D ==> F[🚀 Product Hunt Stream]
-    D ==> G[🐦 X/Twitter Stream]
-
-    style A fill:#0ea5e9,stroke:#0284c7,color:#fff,stroke-width:2px
-    style B fill:#334155,stroke:#475569,color:#fff,stroke-width:2px
-    style C fill:#1e293b,stroke:#334155,color:#cbd5e1,stroke-width:2px
-    style D fill:#10b981,stroke:#059669,color:#fff,stroke-width:2px
-    style E fill:#0f172a,stroke:#1e293b,color:#f8fafc,stroke-width:2px
-    style F fill:#0f172a,stroke:#1e293b,color:#f8fafc,stroke-width:2px
-    style G fill:#0f172a,stroke:#1e293b,color:#f8fafc,stroke-width:2px
-```
+<img width="100%" alt="Shipmate Architecture Diagram" src="docs/architecture.png" />
 
 ## 🏆 Sponsor Tracks Targeted
 
