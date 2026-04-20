@@ -121,10 +121,12 @@ export async function POST(req: Request) {
     if (treeRes.ok) {
       const treeData = await treeRes.json();
       if (treeData && treeData.tree) {
-        // Filter to files and top ~3 levels to infer routes
-        routeTree = treeData.tree
+        const treeFiles: string[] = treeData.tree
           .filter((t: { type: string; path: string }) => t.type === "blob")
-          .map((t: { path: string }) => t.path)
+          .map((t: { path: string }) => t.path);
+
+        // Filter to files and top ~3 levels to infer routes
+        routeTree = treeFiles
           .filter((p: string) => {
             const depth = p.split("/").length;
             // focus on app/ src/ pages/ to infer structure 
@@ -134,6 +136,31 @@ export async function POST(req: Request) {
             return depth <= 2; 
           })
           .slice(0, 50); // limit to avoid massive payloads
+
+        // Infer tech stack from file extensions and config files
+        const inferredStack = new Set<string>();
+        for (const file of treeFiles) {
+          const lower = file.toLowerCase();
+          if (lower.endsWith('.py') || lower.endsWith('requirements.txt') || lower.endsWith('pyproject.toml')) inferredStack.add('Python');
+          if (lower.endsWith('.go') || lower.endsWith('go.mod')) inferredStack.add('Go');
+          if (lower.endsWith('.rs') || lower.endsWith('cargo.toml')) inferredStack.add('Rust');
+          if (lower.includes('dockerfile') || lower.includes('docker-compose')) inferredStack.add('Docker');
+          if (lower.endsWith('.java') || lower.endsWith('pom.xml') || lower.endsWith('build.gradle')) inferredStack.add('Java');
+          if (lower.endsWith('.rb') || lower.endsWith('gemfile')) inferredStack.add('Ruby');
+          if (lower.endsWith('.php') || lower.endsWith('composer.json')) inferredStack.add('PHP');
+          if (lower.endsWith('.cpp') || lower.endsWith('.hpp') || lower.endsWith('cmakelists.txt')) inferredStack.add('C++');
+          if (lower.endsWith('.cs') || lower.endsWith('.csproj')) inferredStack.add('C#');
+          if (lower.endsWith('.ts') || lower.endsWith('.tsx')) inferredStack.add('TypeScript');
+          if (lower.endsWith('.swift') || lower.endsWith('.xcodeproj')) inferredStack.add('Swift');
+          if (lower.endsWith('next.config.js') || lower.endsWith('next.config.ts')) inferredStack.add('Next.js');
+          if (lower.endsWith('tailwind.config.js') || lower.endsWith('tailwind.config.ts')) inferredStack.add('Tailwind CSS');
+        }
+        
+        inferredStack.forEach(tech => {
+          if (!techStack.includes(tech)) {
+            techStack.push(tech);
+          }
+        });
       }
     }
 

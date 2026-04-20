@@ -88,11 +88,23 @@ describe("POST /api/analyze", () => {
           tree: [
             { type: "blob", path: "src/app/page.tsx" },
             { type: "blob", path: "app/page.tsx" },
-            { type: "blob", path: "src/app/foo/bar/baz/deep.tsx" }, // depth 5
+            { type: "blob", path: "src/app/foo/bar/baz/deep.tsx" },
             { type: "blob", path: "src/pages/index.tsx" },
             { type: "blob", path: "pages/index.tsx" },
-            { type: "blob", path: "other.ts" }, // depth 1
-            { type: "blob", path: "other/nested/file.ts" }, // depth 3 > 2 (ignored)
+            { type: "blob", path: "other.ts" },
+            { type: "blob", path: "other/nested/file.ts" },
+            { type: "blob", path: "main.py" },
+            { type: "blob", path: "main.go" },
+            { type: "blob", path: "main.rs" },
+            { type: "blob", path: "Dockerfile" },
+            { type: "blob", path: "Main.java" },
+            { type: "blob", path: "app.rb" },
+            { type: "blob", path: "index.php" },
+            { type: "blob", path: "main.cpp" },
+            { type: "blob", path: "Program.cs" },
+            { type: "blob", path: "app.swift" },
+            { type: "blob", path: "next.config.js" },
+            { type: "blob", path: "tailwind.config.js" }
           ]
         }),
       })
