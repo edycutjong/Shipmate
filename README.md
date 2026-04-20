@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://shipmate.edycu.dev/">
-    <img src="docs/screenshots/Shipmate_Thumbnail_16_9.png" alt="Shipmate Project Banner" width="800" />
+    <img src="public/og-image.png" alt="Shipmate Project Banner" width="800" />
   </a>
   <br/>
   <h1>🚢 Shipmate</h1>
