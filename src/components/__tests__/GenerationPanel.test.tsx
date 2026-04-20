@@ -140,7 +140,7 @@ describe("GenerationPanel", () => {
 
   it("closes expanded view when clicking backdrop", async () => {
     const { render, screen, fireEvent } = await import("@testing-library/react");
-    const { container } = render(
+    render(
       <GenerationPanel
         title="Test Panel"
         icon={<span data-testid="icon" />}
