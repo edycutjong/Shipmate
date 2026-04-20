@@ -34,10 +34,10 @@ const PROJECTS = [
 
     // Create new context for each project to get separate video files
     const context = await browser.newContext({
-      viewport: { width: 1920, height: 1080 },
+      viewport: { width: 1280, height: 720 },
       recordVideo: {
         dir: outputDir,
-        size: { width: 1920, height: 1080 },
+        size: { width: 1280, height: 720 },
       },
       colorScheme: 'dark',
     });
