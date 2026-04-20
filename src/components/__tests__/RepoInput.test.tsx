@@ -220,7 +220,7 @@ describe("RepoInput", () => {
   });
 
   it("uses cached data if it exists in frontendCache", async () => {
-    frontendCache.set("https://github.com/cached/repo:", { simulated: "cached-data" });
+    frontendCache.set("https://github.com/cached/repo:", { name: "cached-repo", description: "", techStack: [], features: [], recentWork: [], readmeExcerpt: "cached-data", routeTree: [] });
 
     render(
       <RepoInput
@@ -240,7 +240,7 @@ describe("RepoInput", () => {
     });
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
-    expect(mockOnAnalyze).toHaveBeenCalledWith({ simulated: "cached-data" });
+    expect(mockOnAnalyze).toHaveBeenCalledWith({ name: "cached-repo", description: "", techStack: [], features: [], recentWork: [], readmeExcerpt: "cached-data", routeTree: [] });
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
     expect(global.fetch).not.toHaveBeenCalled();
   });
