@@ -1,10 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import Icon, { size, contentType } from '@/app/icon';
 
 jest.mock('next/og', () => ({
   ImageResponse: class {
-    constructor(element: React.ReactElement, options: any) {
+    constructor(element: React.ReactElement, options: Record<string, unknown>) {
       return { element, options };
     }
   },
@@ -17,7 +16,7 @@ describe('Icon generated files', () => {
   });
 
   it('should render ImageResponse with correct elements', () => {
-    const result = Icon() as any;
+    const result = Icon() as unknown as { options: Record<string, unknown>; element: React.ReactElement };
     expect(result.options).toEqual(size);
     expect(result.element).toBeTruthy();
   });
