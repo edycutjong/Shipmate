@@ -6,14 +6,14 @@ import rehypeRaw from "rehype-raw";
 import { CopyButton } from "./CopyButton";
 import { ExportButton } from "./ExportButton";
 import { motion, AnimatePresence } from "framer-motion";
-import { Maximize2, Minimize2 } from "lucide-react";
+import { Maximize2, Minimize2, Hash } from "lucide-react";
 
 interface GenerationPanelProps {
   title: string;
   icon: React.ReactNode;
   content: string;
   isGenerating: boolean;
-  variant: "landing" | "twitter" | "producthunt";
+  variant: "landing" | "x_twitter" | "producthunt";
 }
 
 const VARIANT_ACCENTS = {
@@ -31,7 +31,8 @@ const VARIANT_ACCENTS = {
     gradient: "from-orange-500/20 to-transparent",
     tag: "bg-orange-500/10 text-orange-400 border-orange-500/20",
   },
-  twitter: {
+  x_twitter: {
+    icon: Hash,
     border: "border-blue-500/40",
     shadow: "shadow-[0_0_30px_rgba(29,161,242,0.12)]",
     glow: "bg-blue-500/5",
@@ -43,7 +44,7 @@ const VARIANT_ACCENTS = {
 const VARIANT_LABELS = {
   landing: "HTML",
   producthunt: "COPY",
-  twitter: "THREAD",
+  x_twitter: "THREAD",
 };
 
 export function GenerationPanel({
@@ -71,8 +72,8 @@ export function GenerationPanel({
     );
   }, []);
 
-  // Twitter thread renderer
-  const renderTwitter = () => {
+  // X/Twitter thread renderer
+  const renderXTwitter = () => {
     const tweets = content
       .split(/(?:^|\n\n)(?=\d+\. |🧵|I just built)/i)
       .filter((t) => t.trim().length > 0);
@@ -157,7 +158,7 @@ export function GenerationPanel({
   );
 
   const renderContent = () => {
-    if (variant === "twitter") return renderTwitter();
+    if (variant === "x_twitter") return renderXTwitter();
     if (variant === "landing") return renderLanding();
     return renderProductHunt();
   };

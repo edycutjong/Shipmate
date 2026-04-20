@@ -54,18 +54,18 @@ describe("GenerationPanel", () => {
     expect(screen.queryByTestId("copy-btn")).not.toBeInTheDocument();
   });
 
-  it("renders twitter variant splitting content into tweets", () => {
+  it("renders x_twitter variant splitting content into tweets", () => {
     const thread = "1. Tweet One\n\n2. Tweet Two";
     render(
       <GenerationPanel
-        title="Twitter Thread"
+        title="X/Twitter"
         icon={<span data-testid="icon" />}
         content={thread}
         isGenerating={false}
-        variant="twitter"
+        variant="x_twitter"
       />
     );
-    
+
     // Maker badge shows for each tweet
     expect(screen.getAllByText("Maker")).toHaveLength(2);
     expect(screen.getAllByText("@shipmate")).toHaveLength(2);
@@ -107,13 +107,13 @@ describe("GenerationPanel", () => {
       height: 100,
       x: 10,
       y: 20,
-      toJSON: () => {}
+      toJSON: () => { }
     }));
-    
+
     import("@testing-library/react").then(({ fireEvent }) => {
-        fireEvent.mouseMove(card, { clientX: 50, clientY: 60 });
-        expect(card.style.getPropertyValue("--mouse-x")).toBe("40px");
-        expect(card.style.getPropertyValue("--mouse-y")).toBe("40px");
+      fireEvent.mouseMove(card, { clientX: 50, clientY: 60 });
+      expect(card.style.getPropertyValue("--mouse-x")).toBe("40px");
+      expect(card.style.getPropertyValue("--mouse-y")).toBe("40px");
     });
   });
 
@@ -130,10 +130,10 @@ describe("GenerationPanel", () => {
     );
     const expandButton = screen.getByTitle("Expand");
     fireEvent.click(expandButton);
-    
+
     const minimizeButton = screen.getByTitle("Minimize");
     expect(minimizeButton).toBeInTheDocument();
-    
+
     fireEvent.click(minimizeButton);
     expect(screen.getByTitle("Expand")).toBeInTheDocument();
   });
@@ -150,12 +150,12 @@ describe("GenerationPanel", () => {
       />
     );
     fireEvent.click(screen.getByTitle("Expand"));
-    
+
     // Find backdrop (it's the fixed inset-0 div)
     const backdrop = document.querySelector(".fixed.inset-0") as Element;
     expect(backdrop).toBeInTheDocument();
     fireEvent.click(backdrop);
-    
+
     // Should be minimized again
     expect(screen.getByTitle("Expand")).toBeInTheDocument();
   });
@@ -206,7 +206,7 @@ describe("GenerationPanel", () => {
 
   it("handles fallback elegantly when content.includes throws", () => {
     // Suppress React warning for rendering null locally vs other errors
-    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
     render(
       <GenerationPanel
         title="Test Panel"
