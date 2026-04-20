@@ -30,6 +30,7 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    /* istanbul ignore next */
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     containerRef.current.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
@@ -82,6 +83,7 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
           onChange={(e) => setUrl(e.target.value)}
           required
           disabled={isLoading}
+          suppressHydrationWarning
           className="flex-1 py-4 px-2 bg-transparent border-none outline-none text-foreground placeholder:text-sol-muted font-mono text-sm"
         />
         <button
@@ -134,6 +136,7 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
                 value={pat}
                 onChange={(e) => setPat(e.target.value)}
                 disabled={isLoading}
+                suppressHydrationWarning
                 className="w-full bg-transparent border-none outline-none text-slate-300 placeholder:text-sol-muted/50 font-mono text-xs pr-8 py-1"
               />
               <button

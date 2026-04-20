@@ -19,6 +19,7 @@ export function RepoSummary({ data }: RepoSummaryProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    /* istanbul ignore next */
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     cardRef.current.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);

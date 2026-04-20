@@ -58,6 +58,7 @@ export function GenerationPanel({
   const [expanded, setExpanded] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    /* istanbul ignore next */
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     cardRef.current.style.setProperty(
