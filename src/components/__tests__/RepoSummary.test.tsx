@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { RepoSummary } from "../RepoSummary";
 
 describe("RepoSummary", () => {
@@ -33,7 +33,7 @@ describe("RepoSummary", () => {
     expect(screen.getByText("No recent commits")).toBeInTheDocument();
   });
 
-  it("truncates lists properly and shows +more", () => {
+  it("truncates lists properly and handles expand/collapse", () => {
     const manyTech = Array.from({length: 15}, (_, i) => `tech${i}`);
     const manyRoutes = Array.from({length: 10}, (_, i) => `route${i}.ts`);
     const manyCommits = Array.from({length: 5}, (_, i) => `commit${i}`);
@@ -49,11 +49,33 @@ describe("RepoSummary", () => {
 
     expect(screen.getByText("tech0")).toBeInTheDocument();
     expect(screen.queryByText("tech11")).not.toBeInTheDocument();
-    expect(screen.getByText("+5 more")).toBeInTheDocument();
+    const moreTechBtn = screen.getByText("+5 more");
+    expect(moreTechBtn).toBeInTheDocument();
+
+    // Click to expand tech stack
+    fireEvent.click(moreTechBtn);
+    expect(screen.getByText("tech11")).toBeInTheDocument();
+    const lessTechBtn = screen.getByText("Show less", { selector: "button"});
+    expect(lessTechBtn).toBeInTheDocument();
+    
+    // Click to collapse
+    fireEvent.click(lessTechBtn);
+    expect(screen.queryByText("tech11")).not.toBeInTheDocument();
 
     expect(screen.getByText(/route0\.ts/)).toBeInTheDocument();
     expect(screen.queryByText(/route5\.ts/)).not.toBeInTheDocument();
-    expect(screen.getByText(/\.\.\.5 more files/)).toBeInTheDocument();
+    const moreRoutesBtn = screen.getByText(/\+5 more files/);
+    expect(moreRoutesBtn).toBeInTheDocument();
+    
+    // Click to expand routes
+    fireEvent.click(moreRoutesBtn);
+    expect(screen.getByText(/route5\.ts/)).toBeInTheDocument();
+    const lessRoutesBtn = screen.getByText("Show less", { selector: "li"});
+    expect(lessRoutesBtn).toBeInTheDocument();
+    
+    // Click to collapse routes
+    fireEvent.click(lessRoutesBtn);
+    expect(screen.queryByText(/route5\.ts/)).not.toBeInTheDocument();
 
     expect(screen.getByText("commit0")).toBeInTheDocument();
     expect(screen.queryByText("commit4")).not.toBeInTheDocument();

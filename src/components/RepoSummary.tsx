@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 import { GitBranch, BookOpen, Layers, FileCode } from "lucide-react";
 
 interface RepoSummaryProps {
@@ -17,6 +17,8 @@ interface RepoSummaryProps {
 
 export function RepoSummary({ data }: RepoSummaryProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isTechExpanded, setIsTechExpanded] = useState(false);
+  const [isStructureExpanded, setIsStructureExpanded] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     /* istanbul ignore next */
@@ -27,9 +29,9 @@ export function RepoSummary({ data }: RepoSummaryProps) {
   }, []);
 
   // Display only top dependencies
-  const displayStack = data.techStack.slice(0, 10);
+  const displayStack = isTechExpanded ? data.techStack : data.techStack.slice(0, 10);
   const displayCommits = data.recentWork.slice(0, 3);
-  const displayRoutes = data.routeTree.slice(0, 5);
+  const displayRoutes = isStructureExpanded ? data.routeTree : data.routeTree.slice(0, 5);
 
   return (
     <div
@@ -78,10 +80,23 @@ export function RepoSummary({ data }: RepoSummaryProps) {
                   No dependencies found
                 </span>
               )}
-              {data.techStack.length > 10 && (
-                <span className="text-xs px-2 py-1 text-sol-muted">
+              {data.techStack.length > 10 && !isTechExpanded && (
+                <button
+                  type="button"
+                  onClick={() => setIsTechExpanded(true)}
+                  className="text-xs px-2 py-1 text-sol-muted hover:text-sol-green transition-colors cursor-pointer rounded-md border border-transparent border-dashed hover:border-sol-green/30"
+                >
                   +{data.techStack.length - 10} more
-                </span>
+                </button>
+              )}
+              {isTechExpanded && data.techStack.length > 10 && (
+                <button
+                  type="button"
+                  onClick={() => setIsTechExpanded(false)}
+                  className="text-xs px-2 py-1 text-sol-green/80 hover:text-sol-green transition-colors cursor-pointer rounded-md border border-transparent border-dashed hover:border-sol-green/30"
+                >
+                  Show less
+                </button>
               )}
             </div>
           </div>
@@ -103,10 +118,22 @@ export function RepoSummary({ data }: RepoSummaryProps) {
               ) : (
                 <li className="text-sol-muted">No routes inferred</li>
               )}
-              {data.routeTree.length > 5 && (
-                <li className="text-sol-border flex items-center">
-                  <span className="mr-2">├─</span>
-                  ...{data.routeTree.length - 5} more files
+              {data.routeTree.length > 5 && !isStructureExpanded && (
+                <li 
+                  className="text-sol-muted flex items-center cursor-pointer hover:text-sol-green transition-colors w-fit"
+                  onClick={() => setIsStructureExpanded(true)}
+                >
+                  <span className="mr-2 text-sol-border">├─</span>
+                  +{data.routeTree.length - 5} more files
+                </li>
+              )}
+              {isStructureExpanded && data.routeTree.length > 5 && (
+                <li 
+                  className="text-sol-green/80 flex items-center cursor-pointer hover:text-sol-green transition-colors pt-1 w-fit"
+                  onClick={() => setIsStructureExpanded(false)}
+                >
+                  <span className="mr-2 text-sol-border">└─</span>
+                  Show less
                 </li>
               )}
             </ul>
