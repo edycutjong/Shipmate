@@ -184,7 +184,7 @@ export default function DashboardPage() {
             className="animate-slide-up text-sol-muted max-w-xl text-lg mb-2"
             style={{ animationDelay: "200ms" }}
           >
-            We've generated a high-converting landing page, Product
+            We&apos;ve generated a high-converting landing page, Product
             Hunt launch, and X/Twitter thread.
           </p>
         </section>
