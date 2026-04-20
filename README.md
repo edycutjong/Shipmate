@@ -18,7 +18,7 @@
   </p>
 
   <a href="https://shipmate.edycu.dev/"><img src="https://img.shields.io/badge/Live_Demo-▶_shipmate.edycu.dev-00ffaa?logo=vercel" alt="Live Demo" /></a>
-  <a href="https://youtu.be/ApeRnzYuN7U"><img src="https://img.shields.io/badge/Pitch_Video-▶_Watch_Now-red?logo=youtube" alt="Pitch Video" /></a>
+  <a href="https://youtu.be/QJSom_BLiRM"><img src="https://img.shields.io/badge/Pitch_Video-▶_Watch_Now-red?logo=youtube" alt="Pitch Video" /></a>
 </div>
 
 ---
