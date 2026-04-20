@@ -37,13 +37,17 @@ describe("RepoInput", () => {
         setError={mockSetError}
       />
     );
+
+    // Expand the PAT toggle first
+    fireEvent.click(screen.getByText("Private repo? Override token"));
+
     const urlInput = screen.getByPlaceholderText("https://github.com/username/repository");
-    const patInput = screen.getByPlaceholderText("Optional GitHub PAT");
-    const button = screen.getByRole("button");
+    const patInput = screen.getByPlaceholderText("Override GITHUB_TOKEN (optional)");
+    const submitButton = screen.getByRole("button", { name: /Analyzing/i });
 
     expect(urlInput).toBeDisabled();
     expect(patInput).toBeDisabled();
-    expect(button).toBeDisabled();
+    expect(submitButton).toBeDisabled();
     expect(screen.getByText("Analyzing")).toBeInTheDocument();
   });
 
@@ -86,7 +90,10 @@ describe("RepoInput", () => {
     );
 
     const urlInput = screen.getByPlaceholderText("https://github.com/username/repository");
-    const patInput = screen.getByPlaceholderText("Optional GitHub PAT");
+
+    // Expand the PAT toggle to reveal the token field
+    fireEvent.click(screen.getByText("Private repo? Override token"));
+    const patInput = screen.getByPlaceholderText("Override GITHUB_TOKEN (optional)");
 
     fireEvent.change(urlInput, { target: { value: "https://github.com/test/repo" } });
     fireEvent.change(patInput, { target: { value: "secret" } });
@@ -209,5 +216,61 @@ describe("RepoInput", () => {
     });
 
     expect(mockSetError).toHaveBeenCalledWith("An unexpected error occurred");
+  });
+
+  it("toggles PAT field input type when eye icon is clicked", () => {
+    render(
+      <RepoInput
+        onAnalyze={mockOnAnalyze}
+        isLoading={false}
+        setIsLoading={mockSetIsLoading}
+        setError={mockSetError}
+      />
+    );
+    fireEvent.click(screen.getByText("Private repo? Override token"));
+    const patInput = screen.getByPlaceholderText("Override GITHUB_TOKEN (optional)");
+    expect(patInput).toHaveAttribute("type", "password");
+    
+    // find nearest button to input (eye icon)
+    const eyeButton = patInput.nextElementSibling;
+    fireEvent.click(eyeButton!);
+    expect(patInput).toHaveAttribute("type", "text");
+  });
+
+  it("toggles guide visibility when 'How to get a token' is clicked", () => {
+    render(
+      <RepoInput
+        onAnalyze={mockOnAnalyze}
+        isLoading={false}
+        setIsLoading={mockSetIsLoading}
+        setError={mockSetError}
+      />
+    );
+    fireEvent.click(screen.getByText("Private repo? Override token"));
+    const guideButton = screen.getByText("How to get a token");
+    fireEvent.click(guideButton);
+    expect(screen.getByText(/GitHub Settings → Tokens/)).toBeInTheDocument();
+  });
+
+  it("handles mouse move for spotlight effect", async () => {
+    const { container } = render(
+      <RepoInput
+        onAnalyze={mockOnAnalyze}
+        isLoading={false}
+        setIsLoading={mockSetIsLoading}
+        setError={mockSetError}
+      />
+    );
+    
+    // Find the container with ref
+    const card = container.querySelector(".shimmer-border") as HTMLElement;
+    card.getBoundingClientRect = jest.fn(() => ({
+      left: 10, top: 20, right: 110, bottom: 120, width: 100, height: 100, x: 10, y: 20, toJSON: () => {}
+    }));
+    
+    const { fireEvent } = await import("@testing-library/react");
+    fireEvent.mouseMove(card, { clientX: 50, clientY: 60 });
+    expect(card.style.getPropertyValue("--mouse-x")).toBe("40px");
+    expect(card.style.getPropertyValue("--mouse-y")).toBe("40px");
   });
 });

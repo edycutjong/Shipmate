@@ -58,4 +58,16 @@ describe("RepoSummary", () => {
     expect(screen.getByText("commit0")).toBeInTheDocument();
     expect(screen.queryByText("commit4")).not.toBeInTheDocument();
   });
+
+  it("handles mouse move for spotlight effect", async () => {
+    const { container } = render(<RepoSummary data={baseData} />);
+    const card = container.querySelector(".card-3d") as HTMLElement;
+    card.getBoundingClientRect = jest.fn(() => ({
+      left: 10, top: 20, right: 110, bottom: 120, width: 100, height: 100, x: 10, y: 20, toJSON: () => {}
+    }));
+    const { fireEvent } = await import("@testing-library/react");
+    fireEvent.mouseMove(card, { clientX: 50, clientY: 60 });
+    expect(card.style.getPropertyValue("--mouse-x")).toBe("40px");
+    expect(card.style.getPropertyValue("--mouse-y")).toBe("40px");
+  });
 });
