@@ -31,9 +31,6 @@ export const metadata: Metadata = {
       "Compiler-in-the-loop AI codemods that migrate @solana/web3.js to @solana/kit with zero false positives.",
     images: ["/og-image.png"],
   },
-  icons: {
-    icon: "/favicon.png",
-  },
 };
 
 export default function RootLayout({
