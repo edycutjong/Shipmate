@@ -9,7 +9,8 @@ const customJestConfig = {
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^react-markdown$': '<rootDir>/__mocks__/react-markdown.js'
+    '^react-markdown$': '<rootDir>/__mocks__/react-markdown.js',
+    '^rehype-raw$': '<rootDir>/__mocks__/rehype-raw.js'
   },
   coveragePathIgnorePatterns: [
     "/node_modules/",
