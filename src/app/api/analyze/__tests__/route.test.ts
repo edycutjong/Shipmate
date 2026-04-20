@@ -28,7 +28,7 @@ describe("POST /api/analyze", () => {
   });
 
   it("uses cached data if it exists", async () => {
-    apiCache.set("test/repo:secret", { data: { name: "CachedRepo", description: "Cached" }, timestamp: Date.now() });
+    apiCache.set("test/repo:secret", { data: { name: "CachedRepo", description: "Cached", techStack: [], features: [], recentWork: [], readmeExcerpt: "", routeTree: [] }, timestamp: Date.now() });
 
     const req = new Request("http://localhost/api/analyze", {
       method: "POST",
@@ -80,7 +80,7 @@ describe("POST /api/analyze", () => {
       })
       .mockResolvedValueOnce({ // package.json
         ok: true,
-        text: async () => JSON.stringify({ name: "pkg-name", description: "pkg-desc", dependencies: { react: "1" }, devDependencies: { jest: "1" } }),
+        text: async () => JSON.stringify({ name: "pkg-name", description: "pkg-desc", dependencies: { react: "1" }, devDependencies: { jest: "1", "TypeScript": "^5.0.0" } }),
       })
       .mockResolvedValueOnce({ // tree
         ok: true,
