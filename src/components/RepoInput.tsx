@@ -37,10 +37,7 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
     containerRef.current.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!url) return;
-
+  const runAnalysis = async (targetUrl: string, targetPat: string) => {
     setIsLoading(true);
     setError(null);
 
@@ -48,7 +45,7 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
       const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ repoUrl: url, pat }),
+        body: JSON.stringify({ repoUrl: targetUrl, pat: targetPat }),
       });
 
       const data = await res.json();
@@ -63,6 +60,18 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!url) return;
+    await runAnalysis(url, pat);
+  };
+
+  const handleDemo = async () => {
+    const demoUrl = "https://github.com/edycutjong/shipmate";
+    setUrl(demoUrl);
+    await runAnalysis(demoUrl, pat);
   };
 
   return (
@@ -86,6 +95,14 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
           suppressHydrationWarning
           className="flex-1 py-4 px-2 bg-transparent border-none outline-none text-foreground placeholder:text-sol-muted font-mono text-sm"
         />
+        <button
+          type="button"
+          onClick={handleDemo}
+          disabled={isLoading}
+          className="mr-2 my-2 px-4 py-2.5 bg-sol-dark/60 text-slate-300 font-medium hover:text-white border border-sol-border/30 hover:border-sol-border/60 rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed flex items-center text-sm"
+        >
+          Demo
+        </button>
         <button
           type="submit"
           disabled={isLoading || !url}

@@ -273,4 +273,34 @@ describe("RepoInput", () => {
     expect(card.style.getPropertyValue("--mouse-x")).toBe("40px");
     expect(card.style.getPropertyValue("--mouse-y")).toBe("40px");
   });
+
+  it("handles Demo button click successfully", async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ simulated: "demoData" }),
+    });
+
+    render(
+      <RepoInput
+        onAnalyze={mockOnAnalyze}
+        isLoading={false}
+        setIsLoading={mockSetIsLoading}
+        setError={mockSetError}
+      />
+    );
+
+    const demoButton = screen.getByRole("button", { name: "Demo" });
+    
+    await act(async () => {
+      fireEvent.click(demoButton);
+    });
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+    expect(mockSetError).toHaveBeenCalledWith(null);
+    expect(global.fetch).toHaveBeenCalledWith("/api/analyze", expect.objectContaining({
+      method: "POST",
+      body: JSON.stringify({ repoUrl: "https://github.com/edycutjong/shipmate", pat: "" }),
+    }));
+    expect(mockOnAnalyze).toHaveBeenCalledWith({ simulated: "demoData" });
+  });
 });
