@@ -113,7 +113,7 @@ export function GenerationPanel({
     );
   };
 
-  // Landing page renders HTML natively
+  // Landing page renders HTML natively, fallback to markdown if needed
   const renderLanding = () => {
     // Strip markdown codeblocks if the AI wrapped the HTML in them
     let cleanContent = content;
@@ -125,12 +125,24 @@ export function GenerationPanel({
       cleanContent = content.replace(/^```[a-z]*\s*/i, '').replace(/\s*```$/i, '');
     }
 
+    const isHtml = /^\s*</i.test(cleanContent);
+
+    if (isHtml) {
+      return (
+        <div className="text-left text-sm text-slate-300 leading-relaxed overflow-auto scrollbar-none">
+          <div 
+            className="prose prose-invert prose-cyan max-w-none prose-sm prose-headings:text-slate-200 prose-a:text-cyan-400 prose-strong:text-slate-200 prose-code:bg-sol-dark prose-code:text-cyan-300 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-sol-dark/80 prose-pre:border prose-pre:border-sol-border/20 prose-img:rounded-lg prose-img:border prose-img:border-sol-border/20"
+            dangerouslySetInnerHTML={{ __html: cleanContent }}
+          />
+        </div>
+      );
+    }
+
     return (
       <div className="text-left text-sm text-slate-300 leading-relaxed overflow-auto scrollbar-none">
-        <div 
-          className="prose prose-invert prose-cyan max-w-none prose-sm prose-headings:text-slate-200 prose-a:text-cyan-400 prose-strong:text-slate-200 prose-code:bg-sol-dark prose-code:text-cyan-300 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-sol-dark/80 prose-pre:border prose-pre:border-sol-border/20 prose-img:rounded-lg prose-img:border prose-img:border-sol-border/20"
-          dangerouslySetInnerHTML={{ __html: cleanContent }}
-        />
+        <div className="prose prose-invert prose-cyan max-w-none prose-sm prose-headings:text-slate-200 prose-a:text-cyan-400 prose-strong:text-slate-200 prose-code:bg-sol-dark prose-code:text-cyan-300 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-sol-dark/80 prose-pre:border prose-pre:border-sol-border/20 prose-img:rounded-lg prose-img:border prose-img:border-sol-border/20">
+          <ReactMarkdown rehypePlugins={[rehypeRaw]}>{cleanContent}</ReactMarkdown>
+        </div>
       </div>
     );
   };

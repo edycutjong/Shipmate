@@ -189,6 +189,21 @@ describe("GenerationPanel", () => {
     expect(screen.getByText("Test content")).toBeInTheDocument();
   });
 
+  it("renders markdown in landing variant when content does not start with html tags", () => {
+    const mdContent = `# Hello World\n\n**Bold Text**`;
+    render(
+      <GenerationPanel
+        title="Landing Panel"
+        icon={<span data-testid="icon" />}
+        content={mdContent}
+        isGenerating={false}
+        variant="landing"
+      />
+    );
+    expect(screen.getByText(/Hello World/i)).toBeInTheDocument();
+    expect(screen.getByText(/Bold Text/i)).toBeInTheDocument();
+  });
+
   it("handles fallback elegantly when content.includes throws", () => {
     // Suppress React warning for rendering null locally vs other errors
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
