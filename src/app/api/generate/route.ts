@@ -48,8 +48,8 @@ Follow this proven format:
 
 Context: ${contextString}`;
 
-        const twitterPrompt = `You are a developer with 50k followers writing a viral build thread.
-Generate a 5-tweet thread using "🧵" or numbers to separate tweets. Keep it punchy:
+        const xTwitterPrompt = `You are a developer with 50k followers writing a viral build thread.
+Write a 5-part X/Twitter thread launching this project. Keep it punchy:
 1. Hook: "I just built [X]. Here's exactly how. 🧵"
 2. The problem (relatable, specific)
 3. Tech stack breakdown (short, punchy, with emojis)
@@ -83,7 +83,7 @@ Recent commits: ${JSON.stringify(repoContext.recentWork || [])}`;
         await Promise.all([
           runStream('landing', landingPrompt),
           runStream('producthunt', phPrompt),
-          runStream('twitter', twitterPrompt),
+          runStream('x_twitter', xTwitterPrompt),
         ]);
 
         // Finish the stream
