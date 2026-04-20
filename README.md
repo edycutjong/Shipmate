@@ -27,16 +27,16 @@
 *(Demo showing the simultaneous AI generation of three marketing assets streaming via SSE)*
 
 ### 1. Landing Page to Dashboard Flow
-<img width="100%" alt="landing-to-dashboard-broll" src="https://github.com/user-attachments/assets/d9d52cb8-67f6-4151-9300-48deb5afc258" />
+<img width="100%" alt="landing-to-dashboard-broll" src="https://github.com/user-attachments/assets/b44e515c-a4b7-4449-92dd-2bf311bea2a2" />
 
 ### 2. Edge Case: Full-Stack Web3 & AI Integration
-<img width="100%" alt="clawsearch-darkdesk-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/47c2a3b3-b919-4bf3-90cc-3270307a88a3" />
+<img width="100%" alt="clawsearch-darkdesk-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/abba75da-5783-49c6-90e7-9fbb74a01b14" />
 
 ### 3. Edge Case: Offline Multimodal AI
-<img width="100%" alt="RescueNodeZero-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/51dead8d-e899-4a1a-ac7c-8881bc923e4c" />
+<img width="100%" alt="RescueNodeZero-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/647c10b0-fbf0-4ed1-8627-6d3798f0156f" />
 
 ### 4. Edge Case: Pure Python CLI Script
-<img width="100%" alt="terminalrescue py-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/febd789c-b1f3-44e6-8b95-8b263f058491" />
+<img width="100%" alt="terminalrescue py-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/615daf94-482f-4542-b03e-9772e5bab44d" />
 
 ## 💡 The Problem & Solution
 
