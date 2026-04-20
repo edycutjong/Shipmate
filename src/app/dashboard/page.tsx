@@ -36,7 +36,7 @@ export default function DashboardPage() {
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [landingText, setLandingText] = useState("");
-  const [twitterText, setTwitterText] = useState("");
+  const [xTwitterText, setXTwitterText] = useState("");
   const [productHuntText, setProductHuntText] = useState("");
   const [pipelineStep, setPipelineStep] = useState<PipelineStep>("idle");
 
@@ -45,7 +45,7 @@ export default function DashboardPage() {
     setPipelineStep("analyzed");
     // Reset generation state
     setLandingText("");
-    setTwitterText("");
+    setXTwitterText("");
     setProductHuntText("");
     setIsGenerating(true);
     setPipelineStep("generating");
@@ -85,8 +85,8 @@ export default function DashboardPage() {
                   setLandingText((prev) => prev + parsed.content);
                 } else if (parsed.type === "producthunt") {
                   setProductHuntText((prev) => prev + parsed.content);
-                } else if (parsed.type === "twitter") {
-                  setTwitterText((prev) => prev + parsed.content);
+                } else if (parsed.type === "x_twitter") {
+                  setXTwitterText((prev) => prev + parsed.content);
                 } else if (parsed.type === "done") {
                   setIsGenerating(false);
                   setPipelineStep("done");
@@ -184,8 +184,8 @@ export default function DashboardPage() {
             className="animate-slide-up text-sol-muted max-w-xl text-lg mb-2"
             style={{ animationDelay: "200ms" }}
           >
-            We analyze the codebase and generate your Landing Page, Product
-            Hunt launch, and Twitter thread.
+            We've generated a high-converting landing page, Product
+            Hunt launch, and X/Twitter thread.
           </p>
         </section>
 
@@ -208,23 +208,20 @@ export default function DashboardPage() {
                 <div key={s.label} className="flex items-center flex-1">
                   <div className="flex flex-col items-center gap-1.5">
                     <div
-                      className={`rounded-xl p-2.5 transition-all duration-500 ${
-                        isActive
+                      className={`rounded-xl p-2.5 transition-all duration-500 ${isActive
                           ? "glass glow-green-intense"
                           : "glass"
-                      } ${isCurrentStep ? "animate-ring-pulse" : ""}`}
+                        } ${isCurrentStep ? "animate-ring-pulse" : ""}`}
                     >
                       <s.icon
                         size={16}
-                        className={`transition-colors duration-300 ${
-                          isActive ? "text-sol-green" : "text-sol-muted"
-                        }`}
+                        className={`transition-colors duration-300 ${isActive ? "text-sol-green" : "text-sol-muted"
+                          }`}
                       />
                     </div>
                     <span
-                      className={`text-[10px] font-medium transition-colors duration-300 ${
-                        isActive ? "text-sol-green" : "text-sol-muted"
-                      }`}
+                      className={`text-[10px] font-medium transition-colors duration-300 ${isActive ? "text-sol-green" : "text-sol-muted"
+                        }`}
                     >
                       {s.label}
                     </span>
@@ -232,11 +229,10 @@ export default function DashboardPage() {
                   {i < arr.length - 1 && (
                     <div className="flex-1 mx-2 mb-5">
                       <div
-                        className={`h-[2px] rounded transition-all duration-700 ${
-                          currentIdx > thisIdx
+                        className={`h-[2px] rounded transition-all duration-700 ${currentIdx > thisIdx
                             ? "connector-active"
                             : "bg-sol-border/30"
-                        }`}
+                          }`}
                       />
                     </div>
                   )}
@@ -291,11 +287,11 @@ export default function DashboardPage() {
                 variant="producthunt"
               />
               <GenerationPanel
-                title="Twitter Thread"
-                icon={<Hash size={18} className="text-[#1da1f2]" />}
-                content={twitterText}
+                title="X/Twitter"
+                icon={<Hash className="w-5 h-5 text-blue-400" />}
+                content={xTwitterText}
                 isGenerating={isGenerating}
-                variant="twitter"
+                variant="x_twitter"
               />
             </div>
           </div>

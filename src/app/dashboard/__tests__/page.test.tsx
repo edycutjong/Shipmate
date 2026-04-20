@@ -98,7 +98,7 @@ describe("DashboardPage", () => {
           createStreamReader([
             'data: {"type":"landing","content":"A"}\n',
             'data: {"type":"producthunt","content":"B"}\n',
-            'data: {"type":"twitter","content":"C"}\ndata: ', // incomplete string
+            'data: {"type":"x_twitter","content":"C"}\ndata: ', // incomplete string
             '{"type":"invalid_json\n', // will cause parse error
             'data:   \n', // empty data string
             'not-data: ignore-this\n', // hits the line.startsWith("data: ") false branch
@@ -119,7 +119,7 @@ describe("DashboardPage", () => {
       expect(screen.getByTestId("repo-summary")).toBeInTheDocument();
       expect(screen.getByTestId("panel-landing")).toHaveTextContent("A");
       expect(screen.getByTestId("panel-producthunt")).toHaveTextContent("B");
-      expect(screen.getByTestId("panel-twitter")).toHaveTextContent("C");
+      expect(screen.getByTestId("panel-x_twitter")).toHaveTextContent("C");
     });
   });
 
