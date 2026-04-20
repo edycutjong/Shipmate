@@ -3,7 +3,7 @@ import Home from "../page";
 
 // Mock next/link
 jest.mock("next/link", () => {
-  const MockLink = ({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: unknown }) => (
+  const MockLink = ({ children, href, ...props }: { children: React.ReactNode; href: string;[key: string]: unknown }) => (
     <a href={href} {...props}>{children}</a>
   );
   MockLink.displayName = "MockLink";
@@ -28,6 +28,6 @@ describe("Home Page", () => {
     render(<Home />);
     expect(screen.getByText("Landing Page")).toBeInTheDocument();
     expect(screen.getByText("Product Hunt")).toBeInTheDocument();
-    expect(screen.getByText("Twitter Thread")).toBeInTheDocument();
+    expect(screen.getByText("X/Twitter")).toBeInTheDocument();
   });
 });

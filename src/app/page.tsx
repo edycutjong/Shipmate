@@ -42,7 +42,7 @@ const FEATURES = [
   },
   {
     icon: Hash,
-    title: "Twitter Thread",
+    title: "X/Twitter",
     description:
       "Generates a 5-part technical build narrative from your GitHub commit history.",
     color: "from-blue-500/20 to-blue-500/5",
@@ -140,7 +140,7 @@ export default function Home() {
           style={{ animationDelay: "300ms" }}
         >
           Paste your GitHub repo → get a landing page, Product Hunt comment, and
-          viral Twitter thread.{" "}
+          viral X/Twitter thread.{" "}
           <span className="text-foreground font-medium">
             AI reads your code, not your mind.
           </span>
