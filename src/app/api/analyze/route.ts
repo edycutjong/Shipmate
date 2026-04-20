@@ -6,6 +6,14 @@ interface AnalyzeRequest {
   pat?: string;
 }
 
+interface CacheEntry {
+  data: any;
+  timestamp: number;
+}
+
+const CACHE_TTL = 1000 * 60 * 60; // 1 hour
+export const apiCache = new Map<string, CacheEntry>();
+
 export async function POST(req: Request) {
   try {
     const body: AnalyzeRequest = await req.json();
@@ -35,6 +43,12 @@ export async function POST(req: Request) {
 
     // User-provided PAT takes priority, fallback to server-side GITHUB_TOKEN
     const token = pat || process.env.GITHUB_TOKEN;
+
+    const cacheKey = `${owner}/${cleanRepo}:${token || ""}`;
+    const cached = apiCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      return NextResponse.json(cached.data);
+    }
 
     const headers: Record<string, string> = {
       Accept: "application/vnd.github.v3+json",
@@ -131,7 +145,7 @@ export async function POST(req: Request) {
       }
     }
 
-    return NextResponse.json({
+    const result = {
       name: defaultName,
       description,
       techStack,
@@ -139,7 +153,11 @@ export async function POST(req: Request) {
       recentWork,
       readmeExcerpt,
       routeTree,
-    });
+    };
+
+    apiCache.set(cacheKey, { data: result, timestamp: Date.now() });
+
+    return NextResponse.json(result);
   } catch (error: unknown) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to analyze repository" },

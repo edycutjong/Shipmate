@@ -1,4 +1,4 @@
-import { POST } from "../route";
+import { POST, apiCache } from "../route";
 
 jest.mock("next/server", () => ({
   NextResponse: {
@@ -13,6 +13,7 @@ describe("POST /api/analyze", () => {
 
   afterEach(() => {
     jest.resetAllMocks();
+    apiCache.clear();
   });
 
 
@@ -26,6 +27,20 @@ describe("POST /api/analyze", () => {
     expect(res.status).toBe(400);
   });
 
+  it("uses cached data if it exists", async () => {
+    apiCache.set("test/repo:secret", { data: { name: "CachedRepo", description: "Cached" }, timestamp: Date.now() });
+
+    const req = new Request("http://localhost/api/analyze", {
+      method: "POST",
+      body: JSON.stringify({ repoUrl: "https://github.com/test/repo", pat: "secret" }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.name).toBe("CachedRepo");
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
   it("returns 400 if url format is invalid", async () => {
     const req = new Request("http://localhost/api/analyze", {
       method: "POST",

@@ -22,7 +22,6 @@ interface RepoInputProps {
 }
 
 const DEMO_REPOS = [
-  "https://github.com/edycutjong/shipmate",
   "https://github.com/edycutjong/aegis-48",
   "https://github.com/edycutjong/AegisGuard.init",
   "https://github.com/edycutjong/aegis-intercept",
@@ -32,7 +31,6 @@ const DEMO_REPOS = [
   "https://github.com/edycutjong/carbonmerge-demo",
   "https://github.com/edycutjong/ClawSearch402",
   "https://github.com/edycutjong/clawsearch-darkdesk",
-  "https://github.com/edycutjong/hermes",
   "https://github.com/edycutjong/lexexhibit",
   "https://github.com/edycutjong/paciport",
   "https://github.com/edycutjong/RescueNodeZero",
@@ -42,6 +40,9 @@ const DEMO_REPOS = [
   "https://github.com/edycutjong/terminalrescue.py",
   "https://github.com/edycutjong/vaultsudo"
 ];
+
+export const frontendCache = new Map<string, any>();
+
 
 export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: RepoInputProps) {
   const [url, setUrl] = useState("");
@@ -63,6 +64,13 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
     setIsLoading(true);
     setError(null);
 
+    const cacheKey = `${targetUrl}:${targetPat}`;
+    if (frontendCache.has(cacheKey)) {
+      onAnalyze(frontendCache.get(cacheKey));
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -76,6 +84,7 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
         throw new Error(data.error || "Failed to analyze repository");
       }
 
+      frontendCache.set(cacheKey, data);
       onAnalyze(data);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -160,9 +169,8 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
         </button>
 
         <div
-          className={`w-full max-w-md overflow-hidden transition-all duration-300 ease-out ${
-            showPat ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-          }`}
+          className={`w-full max-w-md overflow-hidden transition-all duration-300 ease-out ${showPat ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+            }`}
         >
           <div className="glass rounded-xl border border-sol-border/30 p-3 flex items-center gap-3">
             <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 shrink-0">
@@ -208,9 +216,8 @@ export function RepoInput({ onAnalyze, isLoading, setIsLoading, setError }: Repo
             </button>
 
             <div
-              className={`overflow-hidden transition-all duration-300 ease-out ${
-                showGuide ? "max-h-80 opacity-100 mt-2" : "max-h-0 opacity-0"
-              }`}
+              className={`overflow-hidden transition-all duration-300 ease-out ${showGuide ? "max-h-80 opacity-100 mt-2" : "max-h-0 opacity-0"
+                }`}
             >
               <div className="glass rounded-lg border border-sol-border/20 p-3 text-[11px] space-y-2.5">
                 <ol className="space-y-2 text-sol-muted/70 list-none">

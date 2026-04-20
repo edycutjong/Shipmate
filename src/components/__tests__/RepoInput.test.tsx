@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { RepoInput } from "../RepoInput";
+import { RepoInput, frontendCache } from "../RepoInput";
 
 describe("RepoInput", () => {
   const mockOnAnalyze = jest.fn();
@@ -13,6 +13,7 @@ describe("RepoInput", () => {
   afterEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
+    frontendCache.clear();
   });
 
   it("renders the input and submit button", () => {
@@ -216,6 +217,32 @@ describe("RepoInput", () => {
     });
 
     expect(mockSetError).toHaveBeenCalledWith("An unexpected error occurred");
+  });
+
+  it("uses cached data if it exists in frontendCache", async () => {
+    frontendCache.set("https://github.com/cached/repo:", { simulated: "cached-data" });
+
+    render(
+      <RepoInput
+        onAnalyze={mockOnAnalyze}
+        isLoading={false}
+        setIsLoading={mockSetIsLoading}
+        setError={mockSetError}
+      />
+    );
+
+    const urlInput = screen.getByPlaceholderText("https://github.com/username/repository");
+    fireEvent.change(urlInput, { target: { value: "https://github.com/cached/repo" } });
+
+    const form = urlInput.closest("form");
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
+
+    expect(mockSetIsLoading).toHaveBeenCalledWith(true);
+    expect(mockOnAnalyze).toHaveBeenCalledWith({ simulated: "cached-data" });
+    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
   it("toggles PAT field input type when eye icon is clicked", () => {
