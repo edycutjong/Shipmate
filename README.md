@@ -25,7 +25,18 @@
 
 ## 📸 See it in Action
 *(Demo showing the simultaneous AI generation of three marketing assets streaming via SSE)*
-![App Demo](docs/screenshots/Shipmate_Thumbnail_16_9.png)
+
+### 1. Landing Page to Dashboard Flow
+<img width="800" height="450" alt="landing-to-dashboard-broll" src="https://github.com/user-attachments/assets/d9d52cb8-67f6-4151-9300-48deb5afc258" />
+
+### 2. Edge Case: Full-Stack Web3 & AI Integration
+<img width="800" height="450" alt="clawsearch-darkdesk-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/47c2a3b3-b919-4bf3-90cc-3270307a88a3" />
+
+### 3. Edge Case: Offline Multimodal AI
+<img width="800" height="450" alt="RescueNodeZero-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/51dead8d-e899-4a1a-ac7c-8881bc923e4c" />
+
+### 4. Edge Case: Pure Python CLI Script
+<img width="800" height="450" alt="terminalrescue py-hero-to-dashboard-broll" src="https://github.com/user-attachments/assets/febd789c-b1f3-44e6-8b95-8b263f058491" />
 
 ## 💡 The Problem & Solution
 
